@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 void main() => runApp(const MiApp());
 
 class MiApp extends StatelessWidget {
@@ -22,33 +23,65 @@ class Inicio extends StatefulWidget {
 }
 
 class _InicioState extends State<Inicio> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: const Color.fromARGB(255, 35, 142, 230),
         elevation: 0,
-        toolbarHeight: 80,
+        toolbarHeight: 75,
         leading: Container(
           padding: const EdgeInsets.all(10),
-          child: Image.network(
-            "https://image.tuasaude.com/media/article/gf/wa/autismo_24801_l.jpg",
+          child: Image.asset(
+            "assets/images/pictoLearnLogo.jpg",
             fit: BoxFit.cover,
           ),
         ),
-        leadingWidth: 150,
+        leadingWidth: 100,
       ),
       body: cuerpo(),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Inicio',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book),
+            label: 'Biblioteca',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Ajustes',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Perfil',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.lightBlueAccent,
+        unselectedItemColor: const Color.fromARGB(255, 35, 142, 230),
+        onTap: _onItemTapped,
+        type: BottomNavigationBarType.fixed,
+      ),
     );
   }
 }
-
 Widget cuerpo() {
   return Container(
     decoration: const BoxDecoration(
       image: DecorationImage(
-        image: NetworkImage("https://static.vecteezy.com/system/resources/previews/015/310/018/non_2x/children-s-drawing-background-hand-drawn-style-for-children-free-vector.jpg"),
+        image: AssetImage("assets/images/fondoNubes.jpg"),
         fit: BoxFit.cover,
       ),
     ),
@@ -65,13 +98,13 @@ Widget cuerpo() {
           child: juego2(),
         ),
         Positioned(
-          bottom: 370,
+          top: 450,
           left: 20,
           child: juego3(),
         ),
         Positioned(
-          bottom: 200,
-          right: 30,
+          top: 600,
+          right: 20,
           child: juego4(),
         )
       ],
@@ -79,25 +112,19 @@ Widget cuerpo() {
   );
 }
 
+
 Widget juego1() {
   return TextButton(
     style: TextButton.styleFrom(
       foregroundColor: Colors.white,
-      backgroundColor: Colors.green,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      backgroundColor: const Color.fromARGB(255, 35, 142, 230),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 55),
     ),
     onPressed: () {},
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Image.network(
-          "https://api.placeholder.com/400/320", // Reemplaza con la URL de tu imagen
-          width: 50,
-          height: 50,
-        ),
-        const SizedBox(width: 10),
-        const Text("Juego 1", style: TextStyle(fontSize: 25)),
-      ],
+    child: const Text("Conecta palabras!",
+    style: TextStyle(
+    fontSize: 30,
+    fontFamily: 'IntensaFuente',)
     ),
   );
 }
@@ -106,22 +133,11 @@ Widget juego2() {
   return TextButton(
     style: TextButton.styleFrom(
       foregroundColor: Colors.white,
-      backgroundColor: Colors.green,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      backgroundColor: const Color.fromARGB(255, 35, 142, 230),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 55),
     ),
     onPressed: () {},
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Image.network(
-          "https://api.placeholder.com/400/320", // Reemplaza con la URL de tu imagen
-          width: 50,
-          height: 50,
-        ),
-        const SizedBox(width: 10),
-        const Text("Juego 2", style: TextStyle(fontSize: 25)),
-      ],
-    ),
+    child: const Text("Rompecabezas", style: TextStyle(fontSize: 30 , fontFamily: 'IntensaFuente') ),
   );
 }
 
@@ -129,22 +145,11 @@ Widget juego3() {
   return TextButton(
     style: TextButton.styleFrom(
       foregroundColor: Colors.white,
-      backgroundColor: Colors.green,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      backgroundColor: const Color.fromARGB(255, 35, 142, 230),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 55),
     ),
     onPressed: () {},
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Image.network(
-          "https://api.placeholder.com/400/320", // Reemplaza con la URL de tu imagen
-          width: 50,
-          height: 50,
-        ),
-        const SizedBox(width: 10),
-        const Text("Juego 3", style: TextStyle(fontSize: 25)),
-      ],
-    ),
+    child: const Text("Construye historias", style: TextStyle(fontSize: 30 , fontFamily: 'IntensaFuente')),
   );
 }
 
@@ -152,21 +157,10 @@ Widget juego4() {
   return TextButton(
     style: TextButton.styleFrom(
       foregroundColor: Colors.white,
-      backgroundColor: Colors.green,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      backgroundColor: const Color.fromARGB(255, 35, 142, 230),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 55),
     ),
     onPressed: () {},
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Image.network(
-          "https://api.placeholder.com/400/320", // Reemplaza con la URL de tu imagen
-          width: 50,
-          height: 50,
-        ),
-        const SizedBox(width: 10),
-        const Text("Juego 4", style: TextStyle(fontSize: 25)),
-      ],
-    ),
+    child: const Text("Que falta?", style: TextStyle(fontSize:40 , fontFamily: 'IntensaFuente')),
   );
 }

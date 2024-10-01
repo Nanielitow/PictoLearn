@@ -4,16 +4,25 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.5.2
+  sdk: ^3.5.2  # Versión del SDK de Dart que debe usarse
 
 dependencies:
   flutter:
-    sdk: flutter
+    sdk: flutter  # Esta es la dependencia principal para Flutter
 
 dev_dependencies:
   flutter_test:
-    sdk: flutter
-  flutter_lints: ^4.0.0
+    sdk: flutter  # Dependencias para realizar pruebas unitarias en Flutter
+  flutter_lints: ^4.0.0  # Reglas de linting para un código limpio y correcto
 
 flutter:
-  uses-material-design: true
+  uses-material-design: true  # Permite usar íconos de Material Design
+
+  fonts:
+    - family: IntensaFuente
+      fonts:
+        - asset: assets/fonts/Intensa Fuente.ttf
+
+  # Aquí es donde debes declarar tus assets, dentro de la sección `flutter:`
+  assets:
+    - assets/images/  # Esto incluye todas las imágenes dentro de la carpeta "assets/images"
