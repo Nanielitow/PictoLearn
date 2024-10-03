@@ -37,16 +37,16 @@ class _InicioState extends State<Inicio> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 35, 142, 230),
-        elevation: 0,
-        toolbarHeight: 75,
+        elevation: 5,
+        toolbarHeight: 80,
         leading: Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(9),
           child: Image.asset(
-            "assets/images/pictoLearnLogo.jpg",
+            "assets/images/TranparentLogo.png",
             fit: BoxFit.cover,
           ),
         ),
-        leadingWidth: 100,
+        leadingWidth:120,
       ),
       body: cuerpo(),
       bottomNavigationBar: BottomNavigationBar(
@@ -118,7 +118,7 @@ Widget juego1() {
     style: TextButton.styleFrom(
       foregroundColor: Colors.white,
       backgroundColor: const Color.fromARGB(255, 35, 142, 230),
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 55),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
     ),
     onPressed: () {},
     child: const Text("Conecta palabras!",
@@ -134,7 +134,7 @@ Widget juego2() {
     style: TextButton.styleFrom(
       foregroundColor: Colors.white,
       backgroundColor: const Color.fromARGB(255, 35, 142, 230),
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 55),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
     ),
     onPressed: () {},
     child: const Text("Rompecabezas", style: TextStyle(fontSize: 30 , fontFamily: 'IntensaFuente') ),
@@ -146,7 +146,7 @@ Widget juego3() {
     style: TextButton.styleFrom(
       foregroundColor: Colors.white,
       backgroundColor: const Color.fromARGB(255, 35, 142, 230),
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 55),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
     ),
     onPressed: () {},
     child: const Text("Construye historias", style: TextStyle(fontSize: 30 , fontFamily: 'IntensaFuente')),
@@ -158,7 +158,7 @@ Widget juego4() {
     style: TextButton.styleFrom(
       foregroundColor: Colors.white,
       backgroundColor: const Color.fromARGB(255, 35, 142, 230),
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 55),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
     ),
     onPressed: () {},
     child: const Text("Que falta?", style: TextStyle(fontSize:40 , fontFamily: 'IntensaFuente')),
