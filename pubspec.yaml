@@ -8,7 +8,8 @@ environment:
 
 dependencies:
   flutter:
-    sdk: flutter  # Esta es la dependencia principal para Flutter
+    sdk: flutter 
+  go_router: ^7.0.2 # Esta es la dependencia principal para Flutter
 
 dev_dependencies:
   flutter_test:
