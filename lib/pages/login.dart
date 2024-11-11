@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({super.key});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -136,6 +136,36 @@ class _LoginScreenState extends State<Login> {
                     // Navegar a la pantalla de recuperación de contraseña
                   },
                   child: const Text('¿Olvidaste tu contraseña?'),
+                ),
+                const SizedBox(height: 16),
+                // Separador
+                const Row(
+                  children: [
+                    Expanded(child: Divider()),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        '¿No tienes una cuenta?',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                    Expanded(child: Divider()),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                // Botón de registro
+                OutlinedButton(
+                  onPressed: () {
+                    context.go('/register');
+                  },
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    side: const BorderSide(color: Colors.blue),
+                  ),
+                  child: const Text('Registrarme'),
                 ),
               ],
             ),
