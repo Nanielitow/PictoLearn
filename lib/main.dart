@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pictolearn/pages/login.dart';
 import 'package:pictolearn/pages/home.dart';
 import 'package:pictolearn/pages/register.dart';
+import 'package:pictolearn/pages/juegoRompecabezas.dart';
 
 
 void main() => runApp(const MainApp());
@@ -26,6 +27,10 @@ class MainApp extends StatelessWidget {
         GoRoute(
           path: '/register',
           builder: (context, state) => const RegisterScreen()
+          ),
+        GoRoute(
+          path: '/juegoRompecabezas',
+          builder: (context, state) => GameScreen()
           ),
         ]
       ),

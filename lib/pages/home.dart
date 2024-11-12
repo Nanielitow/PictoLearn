@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -31,9 +32,9 @@ class _HomeState extends State<Home> {
             fit: BoxFit.cover,
           ),
         ),
-        leadingWidth:120,
+        leadingWidth: 120,
       ),
-      body: cuerpo(),
+      body: cuerpo(context), // Pasamos el contexto aquí
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -62,7 +63,8 @@ class _HomeState extends State<Home> {
     );
   }
 }
-Widget cuerpo() {
+
+Widget cuerpo(BuildContext context) { // Recibe el contexto aquí
   return Container(
     decoration: const BoxDecoration(
       image: DecorationImage(
@@ -80,7 +82,7 @@ Widget cuerpo() {
         Positioned(
           top: 300,
           right: 20,
-          child: juego2(),
+          child: juego2(context), // Pasamos el contexto aquí
         ),
         Positioned(
           top: 450,
@@ -91,12 +93,11 @@ Widget cuerpo() {
           top: 600,
           right: 20,
           child: juego4(),
-        )
+        ),
       ],
     ),
   );
 }
-
 
 Widget juego1() {
   return TextButton(
@@ -106,23 +107,30 @@ Widget juego1() {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
     ),
     onPressed: () {},
-    child: const Text("Conecta palabras!",
-    style: TextStyle(
-    fontSize: 30,
-    fontFamily: 'IntensaFuente',)
+    child: const Text(
+      "Conecta palabras!",
+      style: TextStyle(
+        fontSize: 30,
+        fontFamily: 'IntensaFuente',
+      ),
     ),
   );
 }
 
-Widget juego2() {
+Widget juego2(BuildContext context) { // Recibe el contexto
   return TextButton(
     style: TextButton.styleFrom(
       foregroundColor: Colors.white,
       backgroundColor: const Color.fromARGB(255, 35, 142, 230),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
     ),
-    onPressed: () {},
-    child: const Text("Rompecabezas", style: TextStyle(fontSize: 30 , fontFamily: 'IntensaFuente') ),
+    onPressed: () {
+      context.go('/juegoRompecabezas'); // Navegación usando go_router
+    },
+    child: const Text(
+      "Rompecabezas",
+      style: TextStyle(fontSize: 30, fontFamily: 'IntensaFuente'),
+    ),
   );
 }
 
@@ -134,7 +142,10 @@ Widget juego3() {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
     ),
     onPressed: () {},
-    child: const Text("Construye historias", style: TextStyle(fontSize: 30 , fontFamily: 'IntensaFuente')),
+    child: const Text(
+      "Construye historias",
+      style: TextStyle(fontSize: 30, fontFamily: 'IntensaFuente'),
+    ),
   );
 }
 
@@ -146,6 +157,9 @@ Widget juego4() {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
     ),
     onPressed: () {},
-    child: const Text("Que falta?", style: TextStyle(fontSize:40 , fontFamily: 'IntensaFuente')),
+    child: const Text(
+      "Que falta?",
+      style: TextStyle(fontSize: 40, fontFamily: 'IntensaFuente'),
+    ),
   );
 }
