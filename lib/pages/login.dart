@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:pictolearn/services/auth_service.dart';
+
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -12,13 +14,57 @@ class _LoginScreenState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _authService = AuthService();
   bool _obscurePassword = true;
+  bool _isLoading = false;
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  Future<void> _handleLogin() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _isLoading = true);
+
+    try {
+      await _authService.signIn(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+      if (mounted) context.go('/home');
+    } on AuthException catch (e) {
+      _showError(e.message);
+    } catch (_) {
+      _showError('Algo salió mal, inténtalo de nuevo');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _handleResetPassword() async {
+    if (_emailController.text.isEmpty) {
+      _showError('Escribe tu correo arriba primero para poder ayudarte');
+      return;
+    }
+
+    try {
+      await _authService.sendPasswordResetEmail(_emailController.text);
+      if (mounted) {
+        _showError('¡Listo! Revisa tu correo para recuperar tu contraseña');
+      }
+    } on AuthException catch (e) {
+      _showError(e.message);
+    }
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 
   @override
@@ -187,11 +233,7 @@ class _LoginScreenState extends State<Login> {
                       ],
                     ),
                     child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          context.go('/home');
-                        }
-                      },
+                      onPressed: _isLoading ? null : _handleLogin,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
                         shadowColor: Colors.transparent,
@@ -199,20 +241,27 @@ class _LoginScreenState extends State<Login> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      child: const Text(
-                        '¡Vamos a jugar! 🎮',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      child: _isLoading
+                          ? const SizedBox(
+                              height: 24,
+                              width: 24,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 3,
+                              ),
+                            )
+                          : const Text(
+                              '¡Vamos a jugar! 🎮',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                     ),
                   ),
                   const SizedBox(height: 16),
                   TextButton(
-                    onPressed: () {
-                      // Navegar a recuperación de contraseña
-                    },
+                    onPressed: _isLoading ? null : _handleResetPassword,
                     child: Text(
                       '¿Olvidaste tu palabra secreta? 🤔',
                       style: TextStyle(

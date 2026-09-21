@@ -17,25 +17,25 @@ class _HomeState extends State<Home> {
       title: "¡Conecta palabras!",
       icon: Icons.connect_without_contact,
       route: '/conectaPalabras',
-      color: Color(0xFF2196F3),
+      color: const Color(0xFF2196F3),
     ),
     GameInfo(
       title: "Rompecabezas",
       icon: Icons.extension,
       route: '/juegoRompecabezas',
-      color: Color(0xFF4CAF50),
+      color: const Color(0xFF4CAF50),
     ),
     GameInfo(
       title: "Construye historias",
       icon: Icons.auto_stories,
       route: '/construyeHistorias',
-      color: Color(0xFFF44336),
+      color: const Color(0xFFF44336),
     ),
     GameInfo(
       title: "¿Qué falta?",
       icon: Icons.help_outline,
       route: '/queFalta',
-      color: Color(0xFF9C27B0),
+      color: const Color(0xFF9C27B0),
     ),
   ];
 
@@ -61,7 +61,7 @@ class _HomeState extends State<Home> {
       elevation: 0,
       toolbarHeight: 80,
       flexibleSpace: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFF2196F3), Color(0xFF64B5F6)],
             begin: Alignment.topLeft,
@@ -82,7 +82,7 @@ class _HomeState extends State<Home> {
       leadingWidth: 120,
       actions: [
         IconButton(
-          icon: Icon(Icons.notifications_outlined, color: Colors.white),
+          icon: const Icon(Icons.notifications_outlined, color: Colors.white),
           onPressed: () {},
         ),
       ],
@@ -113,7 +113,7 @@ class _HomeState extends State<Home> {
                             fontFamily: 'IntensaFuente',
                             shadows: [
                               Shadow(
-                                offset: Offset(2.0, 2.0),
+                                offset: const Offset(2.0, 2.0),
                                 blurRadius: 3.0,
                                 color: Colors.black.withOpacity(0.3),
                               ),
@@ -124,7 +124,7 @@ class _HomeState extends State<Home> {
                     const SizedBox(height: 24),
                     GridView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: constraints.maxWidth > 600 ? 2 : 1,
                         childAspectRatio: 2,
@@ -199,7 +199,7 @@ class _HomeState extends State<Home> {
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
             blurRadius: 10,
-            offset: Offset(0, -5),
+            offset: const Offset(0, -5),
           ),
         ],
       ),

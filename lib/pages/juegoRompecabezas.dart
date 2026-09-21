@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:go_router/go_router.dart';
 
 class GameScreen extends StatefulWidget {
+  const GameScreen({super.key});
+
   @override
   _GameScreenState createState() => _GameScreenState();
 }
@@ -17,17 +19,17 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   late Animation<double> _bounceAnimation;
 
   // Paleta de colores infantil en tonos azules
-  final Color primaryBlue = Color(0xFF2196F3);
-  final Color secondaryBlue = Color(0xFF64B5F6);
-  final Color lightBlue = Color(0xFFBBDEFB);
-  final Color darkBlue = Color(0xFF1976D2);
+  static const Color primaryBlue = Color(0xFF2196F3);
+  static const Color secondaryBlue = Color(0xFF64B5F6);
+  static const Color lightBlue = Color(0xFFBBDEFB);
+  static const Color darkBlue = Color(0xFF1976D2);
 
   @override
   void initState() {
     super.initState();
     _bounceController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1500),
     )..repeat(reverse: true);
 
     _bounceAnimation = CurvedAnimation(
@@ -66,7 +68,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
 
   void startCounter() {
     timer?.cancel();
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (counter > 0 && !gameWon) {
           counter--;
@@ -82,7 +84,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     return Scaffold(
       backgroundColor: lightBlue,
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "¡Rompecabezas Mágico!",
           style: TextStyle(
             fontSize: 24,
@@ -93,12 +95,12 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
         backgroundColor: primaryBlue,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => context.go('/'),
         ),
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/fondoNubes.jpg"),
             fit: BoxFit.cover,
@@ -109,11 +111,11 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildTimerWidget(),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _buildGameStatus(),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               buildBoard(),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               _buildButtons(),
             ],
           ),
@@ -124,7 +126,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
 
   Widget _buildTimerWidget() {
     return Container(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.9),
         borderRadius: BorderRadius.circular(20),
@@ -132,18 +134,18 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           BoxShadow(
             color: darkBlue.withOpacity(0.2),
             blurRadius: 10,
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
           ),
         ],
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.timer, color: primaryBlue, size: 30),
-          SizedBox(width: 10),
+          const Icon(Icons.timer, color: primaryBlue, size: 30),
+          const SizedBox(width: 10),
           Text(
             counter > 0 ? '$counter segundos' : '¡Se acabó el tiempo!',
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 24,
               fontFamily: 'IntensaFuente',
               color: primaryBlue,
@@ -156,19 +158,19 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildGameStatus() {
-    if (!gameWon && counter > 0) return SizedBox.shrink();
+    if (!gameWon && counter > 0) return const SizedBox.shrink();
     
     return ScaleTransition(
       scale: _bounceAnimation,
       child: Container(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
           color: gameWon ? Colors.green.withOpacity(0.9) : Colors.red.withOpacity(0.9),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(
           gameWon ? '¡Felicitaciones! ¡Ganaste! 🎉' : '¡Inténtalo de nuevo! 😊',
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 24,
             color: Colors.white,
             fontFamily: 'IntensaFuente',
@@ -181,7 +183,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
 
   Widget buildBoard() {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.9),
         borderRadius: BorderRadius.circular(20),
@@ -189,7 +191,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           BoxShadow(
             color: darkBlue.withOpacity(0.3),
             blurRadius: 15,
-            offset: Offset(0, 8),
+            offset: const Offset(0, 8),
           ),
         ],
       ),
@@ -212,7 +214,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       child: Container(
         width: 80,
         height: 80,
-        margin: EdgeInsets.all(4),
+        margin: const EdgeInsets.all(4),
         decoration: BoxDecoration(
           color: tile == '' ? Colors.grey[300] : primaryBlue,
           borderRadius: BorderRadius.circular(15),
@@ -220,10 +222,10 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
             BoxShadow(
               color: darkBlue.withOpacity(0.3),
               blurRadius: 5,
-              offset: Offset(0, 3),
+              offset: const Offset(0, 3),
             ),
           ],
-          gradient: tile == '' ? null : LinearGradient(
+          gradient: tile == '' ? null : const LinearGradient(
             colors: [primaryBlue, secondaryBlue],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -232,7 +234,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
         child: Center(
           child: Text(
             tile,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 36,
               color: Colors.white,
               fontFamily: 'IntensaFuente',
@@ -253,7 +255,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
           icon: Icons.refresh,
           label: "Reiniciar",
         ),
-        SizedBox(width: 20),
+        const SizedBox(width: 20),
         _buildButton(
           onPressed: () => context.go('/home'),
           icon: Icons.home,
@@ -272,7 +274,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: primaryBlue,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
@@ -282,10 +284,10 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(icon, color: Colors.white),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontFamily: 'IntensaFuente',
               color: Colors.white,
@@ -346,7 +348,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
         return Dialog(
           backgroundColor: Colors.transparent,
           child: Container(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -354,13 +356,13 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
+                const Icon(
                   Icons.star,
                   color: Colors.yellow,
                   size: 80,
                 ),
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   '¡Felicitaciones!',
                   style: TextStyle(
                     fontSize: 28,
@@ -369,7 +371,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   '¡Has completado el rompecabezas!',
                   textAlign: TextAlign.center,
@@ -378,7 +380,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                     color: Colors.grey[800],
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -390,7 +392,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
                       borderRadius: BorderRadius.circular(15),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Jugar de nuevo',
                     style: TextStyle(
                       fontSize: 18,

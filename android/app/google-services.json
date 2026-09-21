@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "322712191836",
+    "project_id": "pictolearn-1e1c0",
+    "storage_bucket": "pictolearn-1e1c0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:322712191836:android:85ee5e27503c3536927799",
+        "android_client_info": {
+          "package_name": "com.example.pictolearn"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyqi_fO9QFIaARE_DWHVFcKcWKRb2GdB8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
