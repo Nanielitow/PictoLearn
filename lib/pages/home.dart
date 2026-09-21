@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:pictolearn/services/auth_service.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -10,6 +12,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
+  final _authService = AuthService();
 
   // Lista de juegos para hacer el código más mantenible
   final List<GameInfo> games = [
@@ -17,25 +20,25 @@ class _HomeState extends State<Home> {
       title: "¡Conecta palabras!",
       icon: Icons.connect_without_contact,
       route: '/conectaPalabras',
-      color: const Color(0xFF2196F3),
+      color: Color(0xFF2196F3),
     ),
     GameInfo(
       title: "Rompecabezas",
       icon: Icons.extension,
       route: '/juegoRompecabezas',
-      color: const Color(0xFF4CAF50),
+      color: Color(0xFF4CAF50),
     ),
     GameInfo(
       title: "Construye historias",
       icon: Icons.auto_stories,
       route: '/construyeHistorias',
-      color: const Color(0xFFF44336),
+      color: Color(0xFFF44336),
     ),
     GameInfo(
       title: "¿Qué falta?",
       icon: Icons.help_outline,
       route: '/queFalta',
-      color: const Color(0xFF9C27B0),
+      color: Color(0xFF9C27B0),
     ),
   ];
 
@@ -43,6 +46,34 @@ class _HomeState extends State<Home> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  Future<void> _confirmLogout(BuildContext context) async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: const Text('¿Ya te vas? 👋'),
+        content: const Text('¿Seguro que quieres cerrar sesión?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancelar'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue[400]),
+            child: const Text('Sí, salir', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true) {
+      // No hace falta navegar manualmente: el redirect de go_router
+      // detecta que ya no hay sesión y manda solo a /login.
+      await _authService.signOut();
+    }
   }
 
   @override
@@ -61,7 +92,7 @@ class _HomeState extends State<Home> {
       elevation: 0,
       toolbarHeight: 80,
       flexibleSpace: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFF2196F3), Color(0xFF64B5F6)],
             begin: Alignment.topLeft,
@@ -82,8 +113,13 @@ class _HomeState extends State<Home> {
       leadingWidth: 120,
       actions: [
         IconButton(
-          icon: const Icon(Icons.notifications_outlined, color: Colors.white),
+          icon: Icon(Icons.notifications_outlined, color: Colors.white),
           onPressed: () {},
+        ),
+        IconButton(
+          icon: Icon(Icons.logout, color: Colors.white),
+          tooltip: 'Cerrar sesión',
+          onPressed: () => _confirmLogout(context),
         ),
       ],
     );
@@ -113,7 +149,7 @@ class _HomeState extends State<Home> {
                             fontFamily: 'IntensaFuente',
                             shadows: [
                               Shadow(
-                                offset: const Offset(2.0, 2.0),
+                                offset: Offset(2.0, 2.0),
                                 blurRadius: 3.0,
                                 color: Colors.black.withOpacity(0.3),
                               ),
@@ -124,7 +160,7 @@ class _HomeState extends State<Home> {
                     const SizedBox(height: 24),
                     GridView.builder(
                       shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
+                      physics: NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: constraints.maxWidth > 600 ? 2 : 1,
                         childAspectRatio: 2,
@@ -199,7 +235,7 @@ class _HomeState extends State<Home> {
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
             blurRadius: 10,
-            offset: const Offset(0, -5),
+            offset: Offset(0, -5),
           ),
         ],
       ),

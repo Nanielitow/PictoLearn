@@ -44,7 +44,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (mounted) context.go('/home');
     } on AuthException catch (e) {
       _showError(e.message);
-    } catch (_) {
+    } catch (e, stackTrace) {
+      debugPrint('Error inesperado en registro: $e');
+      debugPrint('$stackTrace');
       _showError('Algo salió mal, inténtalo de nuevo');
     } finally {
       if (mounted) setState(() => _isLoading = false);
