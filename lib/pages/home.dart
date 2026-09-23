@@ -40,6 +40,12 @@ class _HomeState extends State<Home> {
       route: '/queFalta',
       color: Color(0xFF9C27B0),
     ),
+        GameInfo(
+      title: "Empareja y aprende",
+      icon: Icons.extension_outlined,
+      route: '/juegoEmparejar',
+      color: Color(0xFFFF7043),
+    ),
   ];
 
   void _onItemTapped(int index) {

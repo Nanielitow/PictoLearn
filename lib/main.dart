@@ -9,6 +9,7 @@ import 'package:pictolearn/pages/register.dart';
 import 'package:pictolearn/pages/juegoRompecabezas.dart';
 import 'package:pictolearn/services/go_router_refresh_stream.dart';
 import 'package:pictolearn/firebase_options.dart';
+import 'package:pictolearn/pages/matchGame.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,6 +66,10 @@ class MainApp extends StatelessWidget {
         GoRoute(
           path: '/juegoRompecabezas',
           builder: (context, state) => GameScreen()
+          ),
+        GoRoute(
+          path: '/juegoEmparejar',
+          builder: (context, state) => const MatchGameScreen()
           ),
         ]
       );
