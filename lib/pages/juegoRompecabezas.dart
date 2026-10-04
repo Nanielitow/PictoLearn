@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
+///import 'package:flutter_tts/flutter_tts.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:pictolearn/models/pictogram.dart';
 import 'package:pictolearn/services/pictogram_image_service.dart';
+import 'package:pictolearn/services/tts_service.dart';
 
 /// Rompecabezas deslizante (n-puzzle) donde las piezas son fragmentos
 /// reales de un pictograma (ARASAAC). Al armar la imagen completa, se
@@ -36,7 +37,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   late AnimationController _bounceController;
   late Animation<double> _bounceAnimation;
 
-  final FlutterTts _tts = FlutterTts();
+  final TtsService _tts = TtsService();
   final Random _random = Random();
   late Pictogram _currentPictogram;
   Pictogram? _previousPictogram;
@@ -61,7 +62,6 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       curve: Curves.bounceOut,
     );
 
-    _configureTts();
     _loadNewPuzzle();
   }
 
@@ -71,12 +71,6 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     timer?.cancel();
     _tts.stop();
     super.dispose();
-  }
-
-  Future<void> _configureTts() async {
-    await _tts.setLanguage('es-ES');
-    await _tts.setSpeechRate(0.5);
-    await _tts.setPitch(1.1);
   }
 
   void _setDifficulty(int newGridSize) {
@@ -136,7 +130,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   List<List<String>> shuffleMatrix() {
     final result = _solvedMatrix();
     // Menos movimientos = más fácil (queda "casi armado").
-    final shuffleMoves = gridSize <= 2 ? 12 : 35;
+    final shuffleMoves = gridSize <= 2 ? 30 : 50;
 
     var emptyPos = [gridSize - 1, gridSize - 1];
     List<int>? lastMoved;
@@ -588,7 +582,6 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   }
 
   Future<void> _revealWord() async {
-    await _tts.stop();
     await _tts.speak(_currentPictogram.translation);
     if (!mounted) return;
     _showWordDialog();

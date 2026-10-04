@@ -1,10 +1,11 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
-import 'package:go_router/go_router.dart';
 
 import 'package:pictolearn/models/pictogram.dart';
-import 'package:pictolearn/services/pictogram_image_service.dart';
+import 'package:pictolearn/services/tts_service.dart';
+import 'package:pictolearn/theme/app_colors.dart';
+import 'package:pictolearn/widgets/game_exit.dart';
+import 'package:pictolearn/widgets/pictogram_image.dart';
 
 /// Juego de "Empareja el pictograma con la palabra".
 /// Se muestra (y se dice en voz alta, en inglés) una palabra, y el
@@ -19,11 +20,11 @@ class MatchGameScreen extends StatefulWidget {
 
 class _MatchGameScreenState extends State<MatchGameScreen>
     with SingleTickerProviderStateMixin {
-  static const Color primaryBlue = Color(0xFF2196F3);
-  static const Color lightBlue = Color(0xFFBBDEFB);
+  static const Color primaryBlue = AppColors.primaryBlue;
+  static const Color lightBlue = AppColors.lightBlue;
   static const int optionsPerRound = 4;
 
-  final FlutterTts _tts = FlutterTts();
+  final TtsService _tts = TtsService(speechRate: 0.55); // un poco más rápido
   final Random _random = Random();
 
   late List<Pictogram> _queue; // cola de palabras pendientes en esta "vuelta"
@@ -40,14 +41,7 @@ class _MatchGameScreenState extends State<MatchGameScreen>
   @override
   void initState() {
     super.initState();
-    _configureTts();
     _startGame();
-  }
-
-  Future<void> _configureTts() async {
-    await _tts.setLanguage('es-ES');
-    await _tts.setSpeechRate(0.55); // un poco más rápido
-    await _tts.setPitch(1.1);
   }
 
   @override
@@ -92,7 +86,6 @@ class _MatchGameScreenState extends State<MatchGameScreen>
   }
 
   Future<void> _speakTarget() async {
-    await _tts.stop();
     await _tts.speak(_target.translation);
   }
 
@@ -115,37 +108,15 @@ class _MatchGameScreenState extends State<MatchGameScreen>
     _loadRound();
   }
 
-  Future<void> _confirmExit() async {
-    final exit = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Text('¿Salir del juego? 👋'),
-        content: Text('Acertaste $_score de $_roundsPlayed palabras hasta ahora.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Seguir jugando'),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: primaryBlue),
-            onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Salir', style: TextStyle(color: Colors.white)),
-          ),
-        ],
-      ),
-    );
-
-    if (exit == true && mounted) context.go('/home');
-  }
+  Future<void> _confirmExit() => confirmExitGame(
+        context,
+        message: 'Acertaste $_score de $_roundsPlayed palabras hasta ahora.',
+      );
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        if (!didPop) _confirmExit();
-      },
+    return GameExitScope(
+      onExitRequested: _confirmExit,
       child: Scaffold(
       backgroundColor: lightBlue,
       appBar: AppBar(
@@ -301,88 +272,6 @@ class _PictogramCard extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-/// Muestra el pictograma real de ARASAAC para [pictogram.word].
-/// Mientras se busca/descarga la imagen, o si la búsqueda falla
-/// (sin internet, palabra no encontrada), muestra el ícono de
-/// respaldo definido en el modelo, para que el juego nunca se
-/// quede con un espacio vacío.
-class PictogramImage extends StatefulWidget {
-  final Pictogram pictogram;
-
-  const PictogramImage({super.key, required this.pictogram});
-
-  @override
-  State<PictogramImage> createState() => _PictogramImageState();
-}
-
-class _PictogramImageState extends State<PictogramImage> {
-  late Future<String?> _imageUrlFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _imageUrlFuture = PictogramImageService.fetchImageUrl(widget.pictogram.word);
-  }
-
-  @override
-  void didUpdateWidget(covariant PictogramImage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.pictogram.word != widget.pictogram.word) {
-      _imageUrlFuture = PictogramImageService.fetchImageUrl(widget.pictogram.word);
-    }
-  }
-
-  Widget _fallbackIcon() {
-    return Icon(widget.pictogram.icon, size: 120, color: widget.pictogram.color);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<String?>(
-      future: _imageUrlFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: SizedBox(
-              width: 32,
-              height: 32,
-              child: CircularProgressIndicator(
-                strokeWidth: 3,
-                color: widget.pictogram.color,
-              ),
-            ),
-          );
-        }
-
-        final url = snapshot.data;
-        if (url == null) return _fallbackIcon();
-
-        return Image.network(
-          url,
-          fit: BoxFit.contain,
-          loadingBuilder: (context, child, progress) {
-            if (progress == null) return child;
-            return Center(
-              child: SizedBox(
-                width: 32,
-                height: 32,
-                child: CircularProgressIndicator(
-                  strokeWidth: 3,
-                  value: progress.expectedTotalBytes != null
-                      ? progress.cumulativeBytesLoaded / progress.expectedTotalBytes!
-                      : null,
-                  color: widget.pictogram.color,
-                ),
-              ),
-            );
-          },
-          errorBuilder: (context, error, stackTrace) => _fallbackIcon(),
-        );
-      },
     );
   }
 }
