@@ -11,7 +11,14 @@ import 'package:pictolearn/services/pictogram_image_service.dart';
 class PictogramImage extends StatefulWidget {
   final Pictogram pictogram;
 
-  const PictogramImage({super.key, required this.pictogram});
+  /// Tamaño del ícono de respaldo (útil en tarjetas pequeñas).
+  final double fallbackIconSize;
+
+  const PictogramImage({
+    super.key,
+    required this.pictogram,
+    this.fallbackIconSize = 120,
+  });
 
   @override
   State<PictogramImage> createState() => _PictogramImageState();
@@ -35,7 +42,7 @@ class _PictogramImageState extends State<PictogramImage> {
   }
 
   Widget _fallbackIcon() {
-    return Icon(widget.pictogram.icon, size: 120, color: widget.pictogram.color);
+    return Icon(widget.pictogram.icon, size: widget.fallbackIconSize, color: widget.pictogram.color);
   }
 
   @override
