@@ -9,6 +9,7 @@ import 'package:pictolearn/pages/register.dart';
 import 'package:pictolearn/pages/juegoRompecabezas.dart';
 import 'package:pictolearn/services/go_router_refresh_stream.dart';
 import 'package:pictolearn/firebase_options.dart';
+import 'package:pictolearn/pages/conectaPalabras.dart';
 import 'package:pictolearn/pages/matchGame.dart';
 import 'package:pictolearn/pages/queFalta.dart';
 
@@ -75,6 +76,10 @@ class MainApp extends StatelessWidget {
         GoRoute(
           path: '/queFalta',
           builder: (context, state) => const QueFaltaScreen()
+          ),
+        GoRoute(
+          path: '/conectaPalabras',
+          builder: (context, state) => const ConectaPalabrasScreen()
           ),
         ]
       );

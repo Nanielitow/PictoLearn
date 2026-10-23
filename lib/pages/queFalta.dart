@@ -6,7 +6,7 @@ import 'package:pictolearn/services/pictogram_image_service.dart';
 import 'package:pictolearn/services/tts_service.dart';
 import 'package:pictolearn/theme/app_colors.dart';
 import 'package:pictolearn/widgets/game_exit.dart';
-import 'package:pictolearn/widgets/pictogram_image.dart';
+import 'package:pictolearn/widgets/game_tile.dart';
 
 /// Juego "¿Qué falta?" (memoria visual).
 ///
@@ -254,7 +254,7 @@ class _QueFaltaScreenState extends State<QueFaltaScreen> {
 
     // Durante la adivinanza, el espacio del que falta muestra un "?".
     if (isMissingSlot && _phase == _Phase.guess) {
-      return _Tile(
+      return GameTile(
         fillColor: Colors.white.withOpacity(0.6),
         borderColor: primaryBlue,
         child: const Center(
@@ -266,13 +266,13 @@ class _QueFaltaScreenState extends State<QueFaltaScreen> {
     // Al revelar la respuesta, el que faltaba aparece con borde verde.
     final revealed = isMissingSlot && _phase == _Phase.result;
 
-    return _Tile(
+    return GameTile(
       borderColor: revealed ? Colors.green : Colors.transparent,
       // Solo se puede tocar para escuchar mientras se memoriza.
       onTap: _phase == _Phase.memorize
           ? () => _tts.speak(pictogram.translation)
           : null,
-      child: _TileImage(pictogram: pictogram),
+      child: GameTileImage(pictogram: pictogram),
     );
   }
 
@@ -332,12 +332,13 @@ class _QueFaltaScreenState extends State<QueFaltaScreen> {
       }
     }
 
-    return _Tile(
+    return GameTile(
       borderColor: border,
       onTap: () => _onOptionTap(option),
       child: Stack(
+        fit: StackFit.expand,
         children: [
-          _TileImage(pictogram: option),
+          GameTileImage(pictogram: option),
           if (badge != null)
             Positioned(
               top: 0,
@@ -346,68 +347,6 @@ class _QueFaltaScreenState extends State<QueFaltaScreen> {
             ),
         ],
       ),
-    );
-  }
-}
-
-/// Tarjeta blanca redondeada con borde de feedback (verde/rojo).
-class _Tile extends StatelessWidget {
-  final Widget child;
-  final Color borderColor;
-  final Color fillColor;
-  final VoidCallback? onTap;
-
-  const _Tile({
-    required this.child,
-    this.borderColor = Colors.transparent,
-    this.fillColor = Colors.white,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: fillColor,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: borderColor, width: 4),
-          boxShadow: [
-            BoxShadow(
-              color: primaryBlueShadow,
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: child,
-      ),
-    );
-  }
-
-  static const Color primaryBlueShadow = Color(0x402196F3);
-}
-
-/// Imagen del pictograma que se ajusta al tamaño de su tarjeta; el ícono
-/// de respaldo escala con ella.
-class _TileImage extends StatelessWidget {
-  final Pictogram pictogram;
-
-  const _TileImage({required this.pictogram});
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final side = constraints.biggest.shortestSide;
-        return PictogramImage(
-          pictogram: pictogram,
-          fallbackIconSize: side.isFinite ? side * 0.7 : 80,
-        );
-      },
     );
   }
 }

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-/// Representa un pictograma: una palabra en inglés (lo que se enseña),
-/// su traducción en español (para la instrucción hablada al niño),
-/// y un ícono que lo representa visualmente.
+/// Representa un pictograma de vocabulario en español.
 ///
-/// Cuando tengas imágenes reales de pictogramas, agrega un campo
-/// `imagePath` opcional aquí y úsalo en vez del ícono en
-/// PictogramCard (mira el comentario en matchGame.dart).
+/// - [translation]: la palabra en español. Es lo que se muestra y se dice
+///   en voz alta al niño (lo que se enseña).
+/// - [word]: el nombre en inglés. Solo se usa como llave para buscar la
+///   imagen en ARASAAC (y como identificador único); no se muestra.
+/// - [icon] y [color]: respaldo visual cuando no hay imagen real.
 class Pictogram {
-  final String word; // palabra en inglés, lo que se enseña
-  final String translation; // traducción en español, para instrucciones
+  final String word; // nombre en inglés: llave para buscar la imagen
+  final String translation; // palabra en español: lo que se enseña
   final IconData icon;
   final Color color;
 
